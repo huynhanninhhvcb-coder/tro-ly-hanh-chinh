@@ -1,4 +1,40 @@
 /* =========================================
+   1. SỬA LỖI MẤT MENU BÊN TRÁI
+   ========================================= */
+[data-testid="stHeader"] {
+    background-color: transparent !important;
+}
+[data-testid="stToolbar"], .stAppDeployButton, #MainMenu {
+    display: none !important; 
+}
+footer {display: none !important;}
+
+/* =========================================
+   2. FONT CHỮ VÀ HEADER
+   ========================================= */
+html, body, [class*="css"]  {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+.custom-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px 20px 0px;
+    border-bottom: 3px solid #da251d;
+    margin-bottom: 2rem;
+}
+
+/* =========================================
+   3. KHUNG CHAT TRUNG TÂM
+   ========================================= */
+.block-container {
+    padding-bottom: 120px !important;
+    padding-top: 1.5rem !important;
+    max-width: 800px !important; 
+    padding-left: 15px !important; 
+    padding-right: 15px !important; 
+}
+
+/* =========================================
    4. THANH CÔNG CỤ ĐÁY - TỐI GIẢN (CHỈ CÓ NÚT NÓI)
    ========================================= */
 div[data-testid="stHorizontalBlock"] {
@@ -14,50 +50,56 @@ div[data-testid="stHorizontalBlock"] {
     box-shadow: 0px -4px 15px rgba(0,0,0,0.08) !important;
     z-index: 99999 !important;
     box-sizing: border-box !important;
-
-    /* Ép nút nằm giữa màn hình hoàn hảo */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
 }
 
-/* Căn giữa cột chứa nút thu âm */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
-    width: 100% !important;
-    min-width: 0 !important; 
-    padding: 0 !important;
-    margin: 0 !important;
-    display: flex !important;
-    justify-content: center !important;
+/* Tôn vinh nút bấm bằng Viền và Hào quang màu vàng */
+div[data-testid="stHorizontalBlock"] .element-container,
+div[data-testid="stHorizontalBlock"] iframe {
+    display: block !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    border-radius: 8px !important;
+}
+
+div[data-testid="stHorizontalBlock"] iframe {
+    /* Đóng khung vàng và tạo phát sáng đổ bóng */
+    border: 2px solid #fcc101 !important; 
+    box-shadow: 0px 4px 15px rgba(252, 193, 1, 0.4) !important; 
+    transition: all 0.3s ease !important;
+}
+
+/* Hiệu ứng khi khung được tương tác */
+div[data-testid="stHorizontalBlock"] iframe:hover {
+    box-shadow: 0px 6px 20px rgba(252, 193, 1, 0.6) !important; 
+    transform: scale(1.02) !important;
 }
 
 /* =========================================
-   5. TÙY CHỈNH NÚT "CHẠM ĐỂ NÓI" TO BẢN
+   5. TÙY CHỈNH MÀU SẮC (PHẦN BỊ THIẾU)
    ========================================= */
-div[data-testid="stHorizontalBlock"] button {
+/* Tô màu vàng cho nút "Gửi", đổi sang đỏ khi rê chuột */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button {
     background-color: #fcc101 !important;
     color: #333 !important;
     border: none !important;
     font-weight: bold !important;
-    font-size: 16px !important;
-    
-    /* Làm thành nút hình viên thuốc lớn */
-    border-radius: 30px !important; 
-    height: 55px !important;
-    width: 100% !important; 
-    max-width: 350px !important; /* Độ rộng vừa vặn, không bị bè ra hết màn hình */
-    margin: 0 !important;
-    box-shadow: 0px 4px 12px rgba(252, 193, 1, 0.4) !important;
+    border-radius: 5px !important;
     transition: all 0.3s ease;
 }
-
-/* Hiệu ứng ấn nút / rê chuột */
-div[data-testid="stHorizontalBlock"] button:hover,
-div[data-testid="stHorizontalBlock"] button:active {
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button:hover {
     background-color: #da251d !important;
-    color: yellow !important;
-    box-shadow: 0px 4px 12px rgba(218, 37, 29, 0.4) !important;
-    transform: scale(0.98);
+    color: white !important;
+}
+
+/* Làm đẹp ô nhập chữ */
+.stTextInput input {
+    height: 42px !important;
+    border-radius: 5px !important;
+    border: 1px solid #e1e8ed !important;
+}
+.stTextInput input:focus {
+    border-color: #da251d !important;
+    box-shadow: 0 0 0 1px #da251d !important;
 }
 
 /* Làm đẹp thanh Sidebar (Menu bên trái) */
@@ -77,8 +119,4 @@ div[data-testid="stHorizontalBlock"] button:active {
     background-color: #ffffff !important;
     color: #0f6cb6 !important;
     font-weight: bold !important;
-}
-/* Ẩn dứt điểm cục rác đỏ hình vương miện */
-.viewerBadge_container, .viewerBadge_link {
-    display: none !important;
 }
