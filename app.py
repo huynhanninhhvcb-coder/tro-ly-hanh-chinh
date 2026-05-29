@@ -74,7 +74,7 @@ col_left, col_mic, col_right = st.columns([1, 2, 1])
 with col_mic:
     spoken_text = speech_to_text(
         language='vi-VN',
-        start_prompt="🎤 Chạm để Nói",
+        start_prompt="Chạm để Nói",
         stop_prompt="⏹️ Đang thu âm... (Dừng)",
         just_once=True,
         use_container_width=True, # Lệnh ép nút co giãn
