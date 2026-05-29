@@ -68,12 +68,14 @@ audio_player_container = st.empty()
 # ==================================================
 # --- THANH CÔNG CỤ ĐÁY (CHỈ CÒN ĐÚNG 1 NÚT NÓI) ---
 # ==================================================
-col_mic, = st.columns(1)
+# Dùng 3 cột: Cột trái (1 phần), Cột giữa (2 phần chứa nút), Cột phải (1 phần)
+col_left, col_mic, col_right = st.columns([1, 2, 1])
+
 with col_mic:
     spoken_text = speech_to_text(
         language='vi-VN',
         start_prompt="🎤 Chạm để Nói",
-        stop_prompt="⏹️ Đang thu âm... (Chạm để Dừng)",
+        stop_prompt="⏹️ Đang thu âm... (Dừng)",
         just_once=True,
         key='STT'
     )
