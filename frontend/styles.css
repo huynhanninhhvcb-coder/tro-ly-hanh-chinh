@@ -70,7 +70,7 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
 /* --- CỘT 1: NÚT "NÓI" --- */
 /* Lệnh auto này ép cái cột ôm khít sát sạt vào nút bấm, triệt tiêu vùng trống */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    flex: 0 0 auto !important; 
+    flex: 0 0 75px !important; 
 }
 
 /* --- CỘT 2: Ô NHẬP CHỮ --- */
