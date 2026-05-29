@@ -11,8 +11,8 @@ import google.generativeai as genai
 import streamlit as st
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# Sử dụng mô hình Gemini 1.5 Flash (Tốc độ siêu nhanh, thông minh)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Sử dụng mô hình Gemini Pro (Phiên bản ổn định nhất, tương thích 100%)
+model = genai.GenerativeModel('gemini-pro')
 
 def load_all_documents() -> str:
     """Tự động đọc TẤT CẢ các file .txt trong thư mục để làm kiến thức cho AI"""
@@ -67,8 +67,7 @@ def xu_ly_cau_hoi(user_input: str) -> str:
         return response.text
     except Exception as e:
         print(f"Lỗi gọi Gemini API: {e}")
-        # Bắt AI đọc nguyên văn lỗi kỹ thuật ra màn hình
-        return f"Lỗi chi tiết từ Google: {str(e)}"
+        return "Xin lỗi, hệ thống đang bận xử lý hoặc rớt mạng. Vui lòng thử lại sau vài giây!"
 
 def text_to_speech_base64(text: str) -> str:
     """Sử dụng Google TTS để đọc văn bản, mã hóa thành Base64 để phát trên Web"""
