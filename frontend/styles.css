@@ -56,7 +56,7 @@ div[data-testid="stHorizontalBlock"] {
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 2px !important; 
+    gap: 0px !important; 
 }
 
 /* Ghi đè cơ chế tự động rớt dòng của Streamlit trên điện thoại */
