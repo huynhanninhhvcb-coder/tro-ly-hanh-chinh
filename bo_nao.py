@@ -2,80 +2,68 @@ import os
 import io
 import base64
 from gtts import gTTS
-import google.generativeai as genai
 
 # ==========================================
-# 1. CẤU HÌNH BỘ NÃO AI (GEMINI)
+# 1. HÀM ĐỌC NỘI DUNG TỪ FILE TXT
 # ==========================================
-# Đã tích hợp API Key của bạn:
-import streamlit as st
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-
-# Trở lại bản 1.5 Flash (Sau khi thư viện đã được cập nhật, bản này sẽ chạy hoàn hảo và miễn phí rất nhiều)
-model = genai.GenerativeModel('gemini-1.5-flash')
-
-def load_all_documents() -> str:
-    """Tự động đọc TẤT CẢ các file .txt trong thư mục để làm kiến thức cho AI"""
+def doc_file_txt(ten_file: str) -> str:
+    """Mở và đọc nội dung file .txt trong cùng thư mục"""
     thu_muc_hien_tai = os.path.dirname(__file__)
-    knowledge_base = ""
+    duong_dan = os.path.join(thu_muc_hien_tai, ten_file)
     
-    # Quét tất cả các file có đuôi .txt
-    for filename in os.listdir(thu_muc_hien_tai):
-        if filename.endswith(".txt"):
-            duong_dan = os.path.join(thu_muc_hien_tai, filename)
-            try:
-                with open(duong_dan, "r", encoding="utf-8", errors="ignore") as f:
-                    knowledge_base += f"\n--- TÀI LIỆU THỦ TỤC: {filename} ---\n"
-                    knowledge_base += f.read() + "\n"
-            except Exception as e:
-                print(f"Lỗi đọc file {filename}: {e}")
-                
-    return knowledge_base
-
-# Nạp sẵn toàn bộ hồ sơ/tài liệu vào bộ nhớ khi khởi động ứng dụng
-KNOWLEDGE_BASE = load_all_documents()
-
+    try:
+        with open(duong_dan, "r", encoding="utf-8", errors="ignore") as f:
+            # Đọc file và loại bỏ các khoảng trắng thừa
+            return f.read().strip()
+    except FileNotFoundError:
+        return f"Xin lỗi, hệ thống không tìm thấy tài liệu {ten_file} trong cơ sở dữ liệu."
+    except Exception as e:
+        print(f"Lỗi đọc file {ten_file}: {e}")
+        return "Xin lỗi, có lỗi xảy ra khi đọc tài liệu. Vui lòng thử lại sau."
 
 # ==========================================
-# 2. XỬ LÝ CÂU HỎI VÀ TẠO GIỌNG NÓI
+# 2. XỬ LÝ CÂU HỎI (TÌM TỪ KHÓA -> GỌI FILE TXT)
 # ==========================================
 def xu_ly_cau_hoi(user_input: str) -> str:
-    """Đưa câu hỏi và tài liệu cho Gemini đọc, tóm tắt và trả lời"""
+    """Kiểm tra từ khóa và móc nối với đúng file thủ tục"""
     if not user_input.strip():
         return "Xin lỗi, tôi chưa nghe rõ. Bạn có thể nói lại được không?"
 
-    # Viết Prompt (Câu lệnh) để định hướng tính cách cho AI
-    prompt = f"""
-    Bạn là một chuyên viên tư vấn thủ tục hành chính chuyên nghiệp, nhiệt tình tại Trung tâm phục vụ hành chính công Phường Minh Phụng.
-    Nhiệm vụ của bạn là dựa TƯYỆT ĐỐI vào các tài liệu được cung cấp dưới đây để trả lời câu hỏi của người dân.
-    
-    Quy tắc bắt buộc:
-    1. Trả lời lịch sự (Luôn xưng 'tôi' và gọi 'bạn' hoặc 'công dân').
-    2. Trả lời ngắn gọn, đúng trọng tâm, trình bày rõ ràng bằng các gạch đầu dòng.
-    3. NẾU TÀI LIỆU KHÔNG CÓ THÔNG TIN, hãy nói: "Xin lỗi, hiện tại hệ thống chưa có tài liệu về vấn đề này. Mong bạn liên hệ trực tiếp cán bộ tại quầy để được hướng dẫn." (TUYỆT ĐỐI KHÔNG tự bịa ra thông tin không có trong tài liệu).
+    # Chuyển câu nói thành chữ thường để dễ so sánh
+    cau_hoi = user_input.lower()
 
-    TÀI LIỆU KIẾN THỨC CỦA BẠN:
-    {KNOWLEDGE_BASE}
+    # --- KỊCH BẢN TƯ VẤN BẰNG FILE TXT ---
+    if "mai táng" in cau_hoi:
+        return doc_file_txt("Ho_so_mai_tang.txt")
+        
+    elif "hỏa táng" in cau_hoi:
+        return doc_file_txt("Ho_so_hoa_tang.txt")
+        
+    elif "khuyết tật" in cau_hoi:
+        return doc_file_txt("Xac_dinh_muc_do_khuyet_tat.txt")
+        
+    elif "trợ cấp" in cau_hoi or "hưu trí" in cau_hoi:
+        return doc_file_txt("Thoi_huong_tro_cap.txt")
+        
+    elif "chào" in cau_hoi:
+        return "Kính chào công dân. Tôi là trợ lý ảo của Trung tâm Hành chính công phường Minh Phụng. Tôi có thể giúp gì cho bạn?"
+        
+    # --- TRƯỜNG HỢP KHÔNG TÌM THẤY TỪ KHÓA ---
+    else:
+        return (
+            "Xin lỗi, hiện tại hệ thống chưa được lập trình để trả lời về thủ tục này. "
+            "Mong bạn liên hệ trực tiếp cán bộ tại quầy để được hướng dẫn cụ thể hơn."
+        )
 
-    CÂU HỎI CỦA NGƯỜI DÂN:
-    {user_input}
-    """
-
-    try:
-        # Gửi Prompt lên Google Gemini và lấy câu trả lời
-        response = model.generate_content(prompt)
-        return response.text
-    except Exception as e:
-        print(f"Lỗi gọi Gemini API: {e}")
-        # Ép hệ thống in ra mã lỗi kỹ thuật
-        return f"Lỗi chi tiết từ Google: {str(e)}"
-
+# ==========================================
+# 3. TẠO GIỌNG NÓI (Dùng gTTS miễn phí)
+# ==========================================
 def text_to_speech_base64(text: str) -> str:
     """Sử dụng Google TTS để đọc văn bản, mã hóa thành Base64 để phát trên Web"""
     if not text:
         return ""
     try:
-        # Lọc bớt văn bản quá dài (trên 800 ký tự) để Google đọc không bị quá tải
+        # Lọc bớt văn bản quá dài (trên 800 ký tự) để tránh lỗi xử lý giọng nói
         text_to_read = text[:800] + "..." if len(text) > 800 else text
         
         tts = gTTS(text=text_to_read, lang='vi')
