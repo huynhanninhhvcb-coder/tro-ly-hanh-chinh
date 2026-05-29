@@ -57,7 +57,7 @@ html, body, [class*="css"]  {
 }
 
 /* =========================================
-   4. THANH CÔNG CỤ ĐÁY - NÚT NÓI HÀO QUANG
+   4. THANH CÔNG CỤ ĐÁY - NÚT NÓI HÀO QUANG VÀNG
    ========================================= */
 div[data-testid="stHorizontalBlock"] {
     position: fixed !important;
@@ -82,18 +82,23 @@ div[data-testid="stHorizontalBlock"] div[data-testid="column"] {
     overflow: visible !important; 
 }
 
+/* Xóa viền cứng, dùng hiệu ứng phát sáng ôm khít hình dáng thật của nút */
 div[data-testid="stHorizontalBlock"] iframe {
-    border: 2px solid #fcc101 !important; 
-    box-shadow: 0px 4px 15px rgba(252, 193, 1, 0.4) !important; 
+    border: none !important; 
+    background-color: transparent !important;
+    /* Lệnh ma thuật: Tạo hào quang vàng tự động ôm khít nút bấm */
+    filter: drop-shadow(0px 4px 10px rgba(252, 193, 1, 0.7)) !important; 
     transition: all 0.3s ease !important;
-    border-radius: 8px !important; 
-    height: 60px !important; 
+    
+    /* Trả lại chiều cao tự động để không bị dư khoảng trống thừa */
+    height: auto !important; 
+    min-height: 45px !important;
     display: block !important;
     margin: 0 auto !important;
 }
 
 div[data-testid="stHorizontalBlock"] iframe:hover {
-    box-shadow: 0px 6px 20px rgba(252, 193, 1, 0.6) !important; 
+    filter: drop-shadow(0px 6px 16px rgba(252, 193, 1, 0.9)) !important; 
     transform: scale(1.02) !important;
 }
 
