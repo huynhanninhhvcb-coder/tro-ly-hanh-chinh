@@ -77,6 +77,7 @@ with col_mic:
         start_prompt="🎤 Chạm để Nói",
         stop_prompt="⏹️ Đang thu âm... (Dừng)",
         just_once=True,
+        use_container_width=True, # Lệnh ép nút co giãn
         key='STT'
     )
 
