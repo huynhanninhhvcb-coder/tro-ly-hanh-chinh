@@ -1,13 +1,22 @@
-/* Ẩn menu mặc định và khoảng trắng thừa của Streamlit */
-#MainMenu {visibility: hidden;}
+/* =========================================
+   1. SỬA LỖI MẤT MENU BÊN TRÁI TRÊN MOBILE
+   ========================================= */
+/* KHÔNG ẩn toàn bộ header nữa, chỉ làm trong suốt để giữ lại nút Menu (>) */
+[data-testid="stHeader"] {
+    background-color: transparent !important;
+}
+/* Chỉ ẩn đi các nút rác (Deploy, Settings) ở góc phải */
+[data-testid="stToolbar"], .stAppDeployButton, #MainMenu {
+    display: none !important; 
+}
 footer {display: none !important;}
 
-/* Thiết lập font chữ chuẩn */
+/* =========================================
+   2. THIẾT LẬP FONT CHỮ VÀ HEADER ẢNH
+   ========================================= */
 html, body, [class*="css"]  {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
-
-/* Phần Header tùy chỉnh theo nhận diện thương hiệu */
 .custom-header {
     display: flex;
     align-items: center;
@@ -16,49 +25,19 @@ html, body, [class*="css"]  {
     margin-bottom: 2rem;
 }
 
-.logo-container {
-    font-size: 40px;
-    color: #da251d;
-    margin-right: 15px;
-    line-height: 1;
-}
-
-.title-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.title-main {
-    color: #da251d;
-    font-weight: 800;
-    font-size: 18px;
-    margin: 0;
-    text-transform: uppercase;
-    line-height: 1.2;
-}
-
-.title-sub {
-    color: #555;
-    font-weight: 400;
-    font-size: 13px;
-    margin: 0;
-    font-style: italic;
-}
-
-/* Tạo khoảng đệm đẩy nội dung chat lên */
-/* 1. Ép kích thước khung chính bằng Pixel tĩnh */
 /* =========================================
-   2. CĂN CHỈNH KHUNG CHÍNH
+   3. CĂN CHỈNH KHUNG CHAT TRUNG TÂM
    ========================================= */
 .block-container {
     padding-bottom: 120px !important;
+    padding-top: 1.5rem !important;
     max-width: 800px !important; 
     padding-left: 15px !important; 
     padding-right: 15px !important; 
 }
 
 /* =========================================
-   3. THANH CÔNG CỤ ĐÁY - TỐI ƯU MOBILE 100%
+   4. FIX LỖI THANH CÔNG CỤ DƯỚI ĐÁY BỊ TRÀN
    ========================================= */
 div[data-testid="stHorizontalBlock"] {
     position: fixed !important;
@@ -66,58 +45,84 @@ div[data-testid="stHorizontalBlock"] {
     left: 50% !important;
     transform: translateX(-50%) !important;
     
-    /* Mở rộng hai bên lề trên màn hình nhỏ */
-    width: calc(100% - 15px) !important; 
-    max-width: 760px !important;         
+    width: 100% !important; 
+    max-width: 800px !important;         
     
-    padding: 12px 10px 25px 10px !important; 
+    padding: 10px 10px 20px 10px !important; 
     background-color: #ffffff !important;
-    border: 1px solid #e1e8ed !important;
-    border-bottom: none !important;
-    border-radius: 16px 16px 0 0 !important; 
+    border-top: 1px solid #e0e0e0 !important;
     box-shadow: 0px -4px 15px rgba(0,0,0,0.08) !important;
     z-index: 99999 !important;
     box-sizing: border-box !important;
 
-    /* CHÌA KHÓA: Ép các nút nằm cùng 1 hàng ngang tuyệt đối, không rớt dòng */
+    /* Ép tất cả các nút phải nằm gọn trên 1 hàng ngang, không được rớt dòng */
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 6px !important; /* Khoảng cách siêu nhỏ gọn */
+    gap: 8px !important; 
 }
 
-/* Xóa khoảng trống mặc định của Streamlit giữa các cột */
+/* Bẻ khóa giới hạn 100% width của Streamlit trên điện thoại */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+    width: auto !important;
     min-width: 0 !important; 
     padding: 0 !important;
 }
 
-/* Ép kích thước Cột 1: Nút "Nói" */
+/* Cột 1: Nút "Nói" (Cố định chiều rộng) */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    width: 80px !important; 
-    flex: 0 0 80px !important;
+    flex: 0 0 85px !important;
 }
 
-/* Ép kích thước Cột 2: Ô nhập chữ (Tự động co giãn chiếm hết chỗ trống giữa) */
+/* Cột 2: Ô nhập chữ (Ép tự động co giãn vừa đúng chỗ trống còn lại) */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) {
-    width: auto !important;
-    flex: 1 1 auto !important;
+    flex: 1 1 0% !important; 
 }
 
-/* Ép kích thước Cột 3: Nút "Gửi" */
+/* Cột 3: Nút "Gửi" (Cố định chiều rộng) */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) {
-    width: 70px !important; 
-    flex: 0 0 70px !important;
+    flex: 0 0 75px !important;
 }
 
 /* =========================================
-   4. DỌN DẸP CÁC NÚT RÁC CỦA STREAMLIT
+   5. TÙY CHỈNH MÀU SẮC NÚT BẤM & SIDEBAR
    ========================================= */
-/* Ẩn nút Deploy, Menu và Nút quản lý đỏ góc phải */
-.stAppDeployButton, 
-[data-testid="stToolbar"], 
-iframe[title="streamlit_app_manage_button"],
-#st-app-view-container > div > div > div:last-child {
-    display: none !important;
+.stButton > button {
+    background-color: #fcc101 !important;
+    color: #333 !important;
+    border: none !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    height: 42px !important;
+    width: 100% !important; 
+    margin-top: 0 !important;
+    padding: 0 !important;
+    transition: all 0.3s ease;
+}
+.stButton > button:hover {
+    background-color: #da251d !important;
+    color: white !important;
+}
+.stTextInput input {
+    height: 42px !important;
+    border-color: #da251d !important;
+    padding: 0 10px !important;
+}
+[data-testid="stSidebar"] {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e1e8ed !important;
+}
+[data-testid="stSidebar"] h3 {
+    color: #0f6cb6 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 16px !important;
+    margin-bottom: -10px !important;
+}
+[data-testid="stSidebar"] .stLinkButton > a {
+    border: 1px solid #0f6cb6 !important;
+    background-color: #ffffff !important;
+    color: #0f6cb6 !important;
+    font-weight: bold !important;
 }
