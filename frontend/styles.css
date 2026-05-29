@@ -91,7 +91,7 @@ div[data-testid="stHorizontalBlock"] iframe {
     transition: all 0.3s ease !important;
     
     /* Trả lại chiều cao tự động để không bị dư khoảng trống thừa */
-    height: auto !important; 
+    height: 45px !important; 
     min-height: 45px !important;
     display: block !important;
     margin: 0 auto !important;
