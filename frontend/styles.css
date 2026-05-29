@@ -1,9 +1,27 @@
 /* =========================================
-   1. SỬA LỖI MẤT MENU BÊN TRÁI (QUAN TRỌNG NHẤT)
+   1. ÉP HIỆN MENU BÊN TRÁI (CHỐNG LỖI MOBILE)
    ========================================= */
-[data-testid="stHeader"] {
+header[data-testid="stHeader"] {
     background-color: transparent !important;
+    z-index: 99998 !important; 
 }
+
+/* Kéo nút Menu lên lớp cao nhất, bọc viền và tô màu Đỏ */
+[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    z-index: 999999 !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 50% !important;
+    padding: 5px !important;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1) !important;
+}
+[data-testid="collapsedControl"] svg {
+    color: #da251d !important;
+    fill: #da251d !important;
+}
+
+/* Ẩn dứt điểm các nút rác góc phải */
 [data-testid="stToolbar"], .stAppDeployButton, #MainMenu {
     display: none !important; 
 }
@@ -28,7 +46,8 @@ html, body, [class*="css"]  {
    ========================================= */
 .block-container {
     padding-bottom: 120px !important;
-    padding-top: 1.5rem !important;
+    /* Đẩy khung chat xuống một chút để nhường chỗ cho nút Menu */
+    padding-top: 3.5rem !important; 
     max-width: 800px !important; 
     padding-left: 15px !important; 
     padding-right: 15px !important; 
@@ -52,7 +71,6 @@ div[data-testid="stHorizontalBlock"] {
     box-sizing: border-box !important;
 }
 
-/* Căn giữa nút bấm và bo góc hộp cát */
 div[data-testid="stHorizontalBlock"] .element-container,
 div[data-testid="stHorizontalBlock"] iframe {
     display: block !important;
@@ -61,14 +79,12 @@ div[data-testid="stHorizontalBlock"] iframe {
     border-radius: 8px !important; 
 }
 
-/* Viền vàng và Hào quang cho nút bấm */
 div[data-testid="stHorizontalBlock"] iframe {
     border: 2px solid #fcc101 !important; 
     box-shadow: 0px 4px 15px rgba(252, 193, 1, 0.4) !important; 
     transition: all 0.3s ease !important;
 }
 
-/* Hiệu ứng khi khung được chạm vào */
 div[data-testid="stHorizontalBlock"] iframe:hover {
     box-shadow: 0px 6px 20px rgba(252, 193, 1, 0.6) !important; 
     transform: scale(1.02) !important;
@@ -94,8 +110,6 @@ div[data-testid="stHorizontalBlock"] iframe:hover {
     color: #0f6cb6 !important;
     font-weight: bold !important;
 }
-
-/* Ẩn dứt điểm cục rác đỏ hình vương miện */
 .viewerBadge_container, .viewerBadge_link {
     display: none !important;
 }
