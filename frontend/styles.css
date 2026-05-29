@@ -1,24 +1,31 @@
 /* =========================================
-   1. ÉP HIỆN MENU BÊN TRÁI (CHỐNG LỖI MOBILE)
+   1. CỨU HỘ NÚT MENU BÊN TRÁI (CHỐNG LỖI IOS)
    ========================================= */
+/* Tạo một thanh bar nổi bật ở trên cùng để chứa Menu */
 header[data-testid="stHeader"] {
-    background-color: transparent !important;
-    z-index: 99998 !important; 
+    background-color: #ffffff !important; 
+    border-bottom: 2px solid #fcc101 !important; 
+    height: 60px !important; 
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.05) !important;
 }
 
-/* Kéo nút Menu lên lớp cao nhất, bọc viền và tô màu Đỏ */
+/* Ép nút Menu phải hiện hình */
+button[kind="header"], 
 [data-testid="collapsedControl"] {
-    display: flex !important;
+    display: inline-flex !important;
     visibility: visible !important;
+    opacity: 1 !important;
     z-index: 999999 !important;
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    border-radius: 50% !important;
-    padding: 5px !important;
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.1) !important;
 }
+
+/* Tô màu Đỏ đậm và phóng to biểu tượng Menu */
+button[kind="header"] svg, 
 [data-testid="collapsedControl"] svg {
     color: #da251d !important;
     fill: #da251d !important;
+    stroke: #da251d !important;
+    width: 32px !important;
+    height: 32px !important;
 }
 
 /* Ẩn dứt điểm các nút rác góc phải */
@@ -28,7 +35,7 @@ header[data-testid="stHeader"] {
 footer {display: none !important;}
 
 /* =========================================
-   2. FONT CHỮ VÀ HEADER
+   2. FONT CHỮ VÀ HEADER CHÍNH
    ========================================= */
 html, body, [class*="css"]  {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -46,8 +53,8 @@ html, body, [class*="css"]  {
    ========================================= */
 .block-container {
     padding-bottom: 120px !important;
-    /* Đẩy khung chat xuống một chút để nhường chỗ cho nút Menu */
-    padding-top: 3.5rem !important; 
+    /* Đẩy toàn bộ nội dung xuống dưới để không bị thanh Menu đè lên */
+    padding-top: 5rem !important; 
     max-width: 800px !important; 
     padding-left: 15px !important; 
     padding-right: 15px !important; 
@@ -91,7 +98,7 @@ div[data-testid="stHorizontalBlock"] iframe:hover {
 }
 
 /* =========================================
-   5. TÙY CHỈNH SIDEBAR VÀ DỌN RÁC
+   5. TÙY CHỈNH SIDEBAR
    ========================================= */
 [data-testid="stSidebar"] {
     background-color: #ffffff !important;
