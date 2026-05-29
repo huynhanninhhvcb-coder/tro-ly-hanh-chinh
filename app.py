@@ -40,16 +40,13 @@ st.markdown(f"<script>{load_frontend('script.js')}</script>", unsafe_allow_html=
 # --- THANH BÊN (SIDEBAR) ---
 with st.sidebar:
     st.markdown("### 🔍 TIỆN ÍCH TRA CỨU")
-    st.markdown("Các liên kết ngoài hỗ trợ công dân tra cứu thông tin nhanh chóng.")
     st.link_button("🏥 Tra cứu thẻ Bảo hiểm Y tế", "https://baohiemxahoi.gov.vn/tracuu/Pages/tra-cuu-thoi-han-su-dung-the-bhyt.aspx", use_container_width=True)
     
     st.markdown("<br>", unsafe_allow_html=True) 
     
     st.markdown("### 📚 TÀI LIỆU ĐỊA PHƯƠNG")
-    st.markdown("Kho lưu trữ văn bản và tài liệu văn hóa - xã hội do AI hỗ trợ.")
     st.link_button("📖 Tra cứu tài liệu Văn hóa - Xã hội", "https://notebooklm.google.com/notebook/a41316ce-b623-4e76-b7ae-b3235f157f49", use_container_width=True)
     st.markdown("---")
-    st.info("💡 Hướng dẫn: Nhấn vào các nút bên trên để mở trang tra cứu hoặc kho tài liệu trong một thẻ (tab) mới.")
 
 # --- QUẢN LÝ BỘ NHỚ TRÒ CHUYỆN ---
 if "messages" not in st.session_state:
