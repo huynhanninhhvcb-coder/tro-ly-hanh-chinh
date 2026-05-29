@@ -1,35 +1,39 @@
 /* =========================================
-   1. CỨU HỘ NÚT MENU BÊN TRÁI (CHỐNG LỖI IOS)
+   1. CHẾ ĐỘ "BỌC THÉP" CHO NÚT MENU BÊN TRÁI
    ========================================= */
-/* Tạo một thanh bar nổi bật ở trên cùng để chứa Menu */
 header[data-testid="stHeader"] {
-    background-color: #ffffff !important; 
-    border-bottom: 2px solid #fcc101 !important; 
-    height: 60px !important; 
-    box-shadow: 0px 2px 10px rgba(0,0,0,0.05) !important;
+    background-color: #ffffff !important;
+    border-bottom: 2px solid #fcc101 !important;
 }
 
-/* Ép nút Menu phải hiện hình */
-button[kind="header"], 
-[data-testid="collapsedControl"] {
+/* Truy quét mọi tên mã của nút Menu trên Streamlit và đổ nền Vàng */
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapsedControl"],
+button[kind="header"] {
     display: inline-flex !important;
     visibility: visible !important;
     opacity: 1 !important;
     z-index: 999999 !important;
+    background-color: #fcc101 !important; /* Đổ nền Vàng rực rỡ */
+    border-radius: 6px !important;
+    margin: 12px 15px !important; /* Đẩy lùi vào trong cho đẹp */
+    padding: 2px !important;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15) !important;
 }
 
-/* Tô màu Đỏ đậm và phóng to biểu tượng Menu */
-button[kind="header"] svg, 
-[data-testid="collapsedControl"] svg {
+/* Tô màu Đỏ thẫm cho biểu tượng mũi tên bên trong */
+[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapsedControl"] svg,
+button[kind="header"] svg {
     color: #da251d !important;
     fill: #da251d !important;
     stroke: #da251d !important;
-    width: 32px !important;
-    height: 32px !important;
+    width: 24px !important;
+    height: 24px !important;
 }
 
 /* Ẩn dứt điểm các nút rác góc phải */
-[data-testid="stToolbar"], .stAppDeployButton, #MainMenu {
+.stAppDeployButton, [data-testid="stToolbar"], #MainMenu {
     display: none !important; 
 }
 footer {display: none !important;}
@@ -53,7 +57,6 @@ html, body, [class*="css"]  {
    ========================================= */
 .block-container {
     padding-bottom: 120px !important;
-    /* Đẩy toàn bộ nội dung xuống dưới để không bị thanh Menu đè lên */
     padding-top: 5rem !important; 
     max-width: 800px !important; 
     padding-left: 15px !important; 
@@ -70,7 +73,7 @@ div[data-testid="stHorizontalBlock"] {
     transform: translateX(-50%) !important;
     width: 100% !important; 
     max-width: 800px !important;         
-    padding: 15px 15px 25px 15px !important; 
+    padding: 15px 15px 35px 15px !important; 
     background-color: #ffffff !important;
     border-top: 1px solid #e0e0e0 !important;
     box-shadow: 0px -4px 15px rgba(0,0,0,0.08) !important;
@@ -79,17 +82,21 @@ div[data-testid="stHorizontalBlock"] {
 }
 
 div[data-testid="stHorizontalBlock"] .element-container,
-div[data-testid="stHorizontalBlock"] iframe {
+div[data-testid="stHorizontalBlock"] div[data-testid="column"] {
     display: block !important;
     margin: 0 auto !important;
     text-align: center !important;
-    border-radius: 8px !important; 
+    overflow: visible !important; 
 }
 
 div[data-testid="stHorizontalBlock"] iframe {
     border: 2px solid #fcc101 !important; 
     box-shadow: 0px 4px 15px rgba(252, 193, 1, 0.4) !important; 
     transition: all 0.3s ease !important;
+    border-radius: 8px !important; 
+    height: 60px !important; 
+    display: block !important;
+    margin: 0 auto !important;
 }
 
 div[data-testid="stHorizontalBlock"] iframe:hover {
