@@ -1,5 +1,5 @@
 /* =========================================
-   1. SỬA LỖI MẤT MENU BÊN TRÁI
+   1. SỬA LỖI MẤT MENU BÊN TRÁI (QUAN TRỌNG NHẤT)
    ========================================= */
 [data-testid="stHeader"] {
     background-color: transparent !important;
@@ -35,7 +35,7 @@ html, body, [class*="css"]  {
 }
 
 /* =========================================
-   4. THANH CÔNG CỤ ĐÁY - TỐI GIẢN (CHỈ CÓ NÚT NÓI)
+   4. THANH CÔNG CỤ ĐÁY - NÚT NÓI HÀO QUANG
    ========================================= */
 div[data-testid="stHorizontalBlock"] {
     position: fixed !important;
@@ -52,57 +52,31 @@ div[data-testid="stHorizontalBlock"] {
     box-sizing: border-box !important;
 }
 
-/* Tôn vinh nút bấm bằng Viền và Hào quang màu vàng */
+/* Căn giữa nút bấm và bo góc hộp cát */
 div[data-testid="stHorizontalBlock"] .element-container,
 div[data-testid="stHorizontalBlock"] iframe {
     display: block !important;
     margin: 0 auto !important;
     text-align: center !important;
-    border-radius: 8px !important;
+    border-radius: 8px !important; 
 }
 
+/* Viền vàng và Hào quang cho nút bấm */
 div[data-testid="stHorizontalBlock"] iframe {
-    /* Đóng khung vàng và tạo phát sáng đổ bóng */
     border: 2px solid #fcc101 !important; 
     box-shadow: 0px 4px 15px rgba(252, 193, 1, 0.4) !important; 
     transition: all 0.3s ease !important;
 }
 
-/* Hiệu ứng khi khung được tương tác */
+/* Hiệu ứng khi khung được chạm vào */
 div[data-testid="stHorizontalBlock"] iframe:hover {
     box-shadow: 0px 6px 20px rgba(252, 193, 1, 0.6) !important; 
     transform: scale(1.02) !important;
 }
 
 /* =========================================
-   5. TÙY CHỈNH MÀU SẮC (PHẦN BỊ THIẾU)
+   5. TÙY CHỈNH SIDEBAR VÀ DỌN RÁC
    ========================================= */
-/* Tô màu vàng cho nút "Gửi", đổi sang đỏ khi rê chuột */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button {
-    background-color: #fcc101 !important;
-    color: #333 !important;
-    border: none !important;
-    font-weight: bold !important;
-    border-radius: 5px !important;
-    transition: all 0.3s ease;
-}
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button:hover {
-    background-color: #da251d !important;
-    color: white !important;
-}
-
-/* Làm đẹp ô nhập chữ */
-.stTextInput input {
-    height: 42px !important;
-    border-radius: 5px !important;
-    border: 1px solid #e1e8ed !important;
-}
-.stTextInput input:focus {
-    border-color: #da251d !important;
-    box-shadow: 0 0 0 1px #da251d !important;
-}
-
-/* Làm đẹp thanh Sidebar (Menu bên trái) */
 [data-testid="stSidebar"] {
     background-color: #ffffff !important;
     border-right: 1px solid #e1e8ed !important;
@@ -119,4 +93,9 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) bu
     background-color: #ffffff !important;
     color: #0f6cb6 !important;
     font-weight: bold !important;
+}
+
+/* Ẩn dứt điểm cục rác đỏ hình vương miện */
+.viewerBadge_container, .viewerBadge_link {
+    display: none !important;
 }
