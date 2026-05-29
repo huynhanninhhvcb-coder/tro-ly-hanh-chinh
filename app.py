@@ -30,7 +30,7 @@ def get_image_base64(file_path):
 # --- CẤU HÌNH TRANG VÀ NHÚNG FRONTEND ---
 st.set_page_config(page_title="Tra cứu Hành chính công", page_icon="🏛️", layout="centered")
 
-logo_path = r"E:\Tro_ly_AI\Picture\TTHCC.png"
+logo_path = "TTHCC.png"
 logo_b64 = get_image_base64(logo_path)
 
 header_html = load_frontend('header.html')
