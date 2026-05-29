@@ -92,7 +92,7 @@ div[data-testid="stHorizontalBlock"] iframe {
     
     /* Trả lại chiều cao tự động để không bị dư khoảng trống thừa */
     height: 30px !important; 
-    min-height: 40px !important;
+    min-height: 35px !important;
     display: block !important;
     margin: 0 auto !important;
 }
