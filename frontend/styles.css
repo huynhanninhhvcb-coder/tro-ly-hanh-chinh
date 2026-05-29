@@ -68,9 +68,9 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
 }
 
 /* --- CỘT 1: NÚT "NÓI" --- */
-/* Lệnh auto này ép cái cột ôm khít sát sạt vào nút bấm, triệt tiêu vùng trống */
+/* Ép cột ôm khít sát sạt vào nút bấm, triệt tiêu vùng trống */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    flex: 0 0 75px !important; 
+    flex: 0 0 auto !important; 
 }
 
 /* --- CỘT 2: Ô NHẬP CHỮ --- */
@@ -87,4 +87,51 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) bu
     width: 100% !important;
     height: 42px !important;
     margin: 0 !important;
+}
+
+/* =========================================
+   5. TÙY CHỈNH MÀU SẮC (PHẦN BỊ THIẾU)
+   ========================================= */
+/* Tô màu vàng cho nút "Gửi", đổi sang đỏ khi rê chuột */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button {
+    background-color: #fcc101 !important;
+    color: #333 !important;
+    border: none !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    transition: all 0.3s ease;
+}
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button:hover {
+    background-color: #da251d !important;
+    color: white !important;
+}
+
+/* Làm đẹp ô nhập chữ */
+.stTextInput input {
+    height: 42px !important;
+    border-radius: 5px !important;
+    border: 1px solid #e1e8ed !important;
+}
+.stTextInput input:focus {
+    border-color: #da251d !important;
+    box-shadow: 0 0 0 1px #da251d !important;
+}
+
+/* Làm đẹp thanh Sidebar (Menu bên trái) */
+[data-testid="stSidebar"] {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e1e8ed !important;
+}
+[data-testid="stSidebar"] h3 {
+    color: #0f6cb6 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 16px !important;
+    margin-bottom: -10px !important;
+}
+[data-testid="stSidebar"] .stLinkButton > a {
+    border: 1px solid #0f6cb6 !important;
+    background-color: #ffffff !important;
+    color: #0f6cb6 !important;
+    font-weight: bold !important;
 }
