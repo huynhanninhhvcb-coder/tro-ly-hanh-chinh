@@ -1,18 +1,16 @@
 /* =========================================
-   1. SỬA LỖI MẤT MENU BÊN TRÁI TRÊN MOBILE
+   1. SỬA LỖI MẤT MENU BÊN TRÁI
    ========================================= */
-/* KHÔNG ẩn toàn bộ header nữa, chỉ làm trong suốt để giữ lại nút Menu (>) */
 [data-testid="stHeader"] {
     background-color: transparent !important;
 }
-/* Chỉ ẩn đi các nút rác (Deploy, Settings) ở góc phải */
 [data-testid="stToolbar"], .stAppDeployButton, #MainMenu {
     display: none !important; 
 }
 footer {display: none !important;}
 
 /* =========================================
-   2. THIẾT LẬP FONT CHỮ VÀ HEADER ẢNH
+   2. FONT CHỮ VÀ HEADER
    ========================================= */
 html, body, [class*="css"]  {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -26,7 +24,7 @@ html, body, [class*="css"]  {
 }
 
 /* =========================================
-   3. CĂN CHỈNH KHUNG CHAT TRUNG TÂM
+   3. KHUNG CHAT TRUNG TÂM
    ========================================= */
 .block-container {
     padding-bottom: 120px !important;
@@ -37,17 +35,15 @@ html, body, [class*="css"]  {
 }
 
 /* =========================================
-   4. FIX LỖI THANH CÔNG CỤ DƯỚI ĐÁY BỊ TRÀN
+   4. FIX LỖI THANH CÔNG CỤ DƯỚI ĐÁY (MOBILE 100%)
    ========================================= */
 div[data-testid="stHorizontalBlock"] {
     position: fixed !important;
     bottom: 0 !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    
     width: 100% !important; 
     max-width: 800px !important;         
-    
     padding: 10px 10px 20px 10px !important; 
     background-color: #ffffff !important;
     border-top: 1px solid #e0e0e0 !important;
@@ -55,34 +51,38 @@ div[data-testid="stHorizontalBlock"] {
     z-index: 99999 !important;
     box-sizing: border-box !important;
 
-    /* Ép tất cả các nút phải nằm gọn trên 1 hàng ngang, không được rớt dòng */
+    /* Ép hiển thị hàng ngang tuyệt đối */
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 8px !important; 
+    gap: 6px !important; 
 }
 
-/* Bẻ khóa giới hạn 100% width của Streamlit trên điện thoại */
+/* Ghi đè cơ chế tự động rớt dòng của Streamlit trên điện thoại */
+@media (max-width: 768px) {
+    div[data-testid="stHorizontalBlock"] {
+        flex-direction: row !important;
+    }
+}
+
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
     width: auto !important;
     min-width: 0 !important; 
     padding: 0 !important;
 }
 
-/* Cột 1: Nút "Nói" (Cố định chiều rộng) */
+/* Cột 1: Nút "Nói" */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    flex: 0 0 85px !important;
+    flex: 0 0 80px !important;
 }
-
-/* Cột 2: Ô nhập chữ (Ép tự động co giãn vừa đúng chỗ trống còn lại) */
+/* Cột 2: Ô nhập chữ */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) {
-    flex: 1 1 0% !important; 
+    flex: 1 1 auto !important; 
 }
-
-/* Cột 3: Nút "Gửi" (Cố định chiều rộng) */
+/* Cột 3: Nút "Gửi" */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) {
-    flex: 0 0 75px !important;
+    flex: 0 0 70px !important;
 }
 
 /* =========================================
@@ -125,4 +125,9 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) {
     background-color: #ffffff !important;
     color: #0f6cb6 !important;
     font-weight: bold !important;
+}
+
+/* Ẩn dứt điểm cục rác đỏ hình vương miện */
+.viewerBadge_container, .viewerBadge_link {
+    display: none !important;
 }
