@@ -51,7 +51,7 @@ div[data-testid="stHorizontalBlock"] {
     z-index: 99999 !important;
     box-sizing: border-box !important;
 
-    /* Ép hiển thị hàng ngang tuyệt đối */
+    /* Ép hiển thị hàng ngang tuyệt đối và KHÔNG CÓ KHOẢNG HỞ (gap: 0) */
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
@@ -59,75 +59,46 @@ div[data-testid="stHorizontalBlock"] {
     gap: 0px !important; 
 }
 
-/* Ghi đè cơ chế tự động rớt dòng của Streamlit trên điện thoại */
-@media (max-width: 768px) {
-    div[data-testid="stHorizontalBlock"] {
-        flex-direction: row !important;
-    }
-}
-
+/* Xóa mọi lớp đệm thừa của Streamlit */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
     width: auto !important;
     min-width: 0 !important; 
     padding: 0 !important;
+    margin: 0 !important;
 }
 
-/* Cột 1: Nút "Nói" */
+/* --- CỘT 1: NÚT "NÓI" --- */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    flex: 0 0 80px !important;
+    flex: 0 0 75px !important; 
 }
-/* Cột 2: Ô nhập chữ */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) button {
+    width: 100% !important; /* Ép nút phình to lấp đầy khoảng trắng */
+    height: 42px !important;
+    margin: 0 !important;
+    /* Làm vuông 2 góc bên phải để cắm sát vào ô chữ */
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-right: none !important; 
+}
+
+/* --- CỘT 2: Ô NHẬP CHỮ --- */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) {
     flex: 1 1 auto !important; 
 }
-/* Cột 3: Nút "Gửi" */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) div[data-baseweb="input"] {
+    /* Làm vuông góc 2 bên để dính sát vào 2 nút */
+    border-radius: 0px !important;
+}
+
+/* --- CỘT 3: NÚT "GỬI" --- */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) {
-    flex: 0 0 70px !important;
+    flex: 0 0 75px !important;
 }
-
-/* =========================================
-   5. TÙY CHỈNH MÀU SẮC NÚT BẤM & SIDEBAR
-   ========================================= */
-.stButton > button {
-    background-color: #fcc101 !important;
-    color: #333 !important;
-    border: none !important;
-    font-weight: bold !important;
-    border-radius: 5px !important;
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button {
+    width: 100% !important;
     height: 42px !important;
-    width: 100% !important; 
-    margin-top: 0 !important;
-    padding: 0 !important;
-    transition: all 0.3s ease;
-}
-.stButton > button:hover {
-    background-color: #da251d !important;
-    color: white !important;
-}
-.stTextInput input {
-    height: 42px !important;
-    border-color: #da251d !important;
-    padding: 0 10px !important;
-}
-[data-testid="stSidebar"] {
-    background-color: #ffffff !important;
-    border-right: 1px solid #e1e8ed !important;
-}
-[data-testid="stSidebar"] h3 {
-    color: #0f6cb6 !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    font-size: 16px !important;
-    margin-bottom: -10px !important;
-}
-[data-testid="stSidebar"] .stLinkButton > a {
-    border: 1px solid #0f6cb6 !important;
-    background-color: #ffffff !important;
-    color: #0f6cb6 !important;
-    font-weight: bold !important;
-}
-
-/* Ẩn dứt điểm cục rác đỏ hình vương miện */
-.viewerBadge_container, .viewerBadge_link {
-    display: none !important;
+    margin: 0 !important;
+    /* Làm vuông 2 góc bên trái để cắm sát vào ô chữ */
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
 }
