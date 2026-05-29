@@ -1,0 +1,146 @@
+/* Ẩn menu mặc định và khoảng trắng thừa của Streamlit */
+#MainMenu {visibility: hidden;}
+footer {display: none !important;}
+
+/* Thiết lập font chữ chuẩn */
+html, body, [class*="css"]  {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Phần Header tùy chỉnh theo nhận diện thương hiệu */
+.custom-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px 20px 0px;
+    border-bottom: 3px solid #da251d;
+    margin-bottom: 2rem;
+}
+
+.logo-container {
+    font-size: 40px;
+    color: #da251d;
+    margin-right: 15px;
+    line-height: 1;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-main {
+    color: #da251d;
+    font-weight: 800;
+    font-size: 18px;
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.title-sub {
+    color: #555;
+    font-weight: 400;
+    font-size: 13px;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Tạo khoảng đệm đẩy nội dung chat lên */
+/* 1. Ép kích thước khung chính bằng Pixel tĩnh */
+.block-container {
+    padding-bottom: 120px !important;
+    max-width: 800px !important; 
+    /* Dùng 20px lề cố định thay vì rem để kiểm soát tuyệt đối */
+    padding-left: 20px !important; 
+    padding-right: 20px !important; 
+}
+
+/* 2. Căn chỉnh thanh công cụ đáy thẳng tắp với Header */
+div[data-testid="stHorizontalBlock"] {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 58% !important;
+    transform: translateX(-50%) !important;
+    
+    /* Chiều rộng bằng màn hình trừ đi 40px (2 lề trái/phải ở trên cộng lại) */
+    width: calc(100% - 40px) !important; 
+    /* Max width = 800px - 40px = 760px (Khớp tuyệt đối với Header) */
+    max-width: 760px !important;         
+    
+    padding: 15px 20px 25px 20px !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e1e8ed !important;
+    border-bottom: none !important;
+    border-radius: 16px 16px 0 0 !important; 
+    box-shadow: 0px -4px 15px rgba(0,0,0,0.03) !important;
+    z-index: 9999 !important;
+    box-sizing: border-box !important;
+}
+
+/* Tùy chỉnh màu sắc và kích thước nút bấm */
+.stButton > button {
+    background-color: #fcc101 !important;
+    color: #333 !important;
+    border: none !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    height: 42px !important;
+    margin-top: 1px !important;
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    background-color: #da251d !important;
+    color: white !important;
+}
+
+.stTextInput input {
+    height: 42px !important;
+    border-color: #da251d !important;
+}
+
+/* =========================================
+   TÙY CHỈNH THANH SIDEBAR & HEADER BẢO LƯU
+   ========================================= */
+
+/* Làm trong suốt Header để không che mất giao diện, nhưng vẫn giữ lại nút mở Sidebar trên Mobile */
+[data-testid="stHeader"] {
+    background-color: transparent !important;
+}
+
+/* Ẩn nút "Deploy" mặc định của Streamlit trên góc phải */
+.stAppDeployButton {
+    display: none !important;
+}
+
+/* Trang trí nền cho Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e1e8ed !important;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05) !important;
+}
+
+/* Trang trí Tiêu đề trong Sidebar */
+[data-testid="stSidebar"] h3 {
+    color: #0f6cb6 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 16px !important;
+    margin-bottom: -10px !important;
+}
+
+/* Nút Link Button trong Sidebar */
+[data-testid="stSidebar"] .stLinkButton > a {
+    border: 1px solid #0f6cb6 !important;
+    background-color: #ffffff !important;
+    color: #0f6cb6 !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng khi rê chuột vào Nút Link Button */
+[data-testid="stSidebar"] .stLinkButton > a:hover {
+    background-color: #0f6cb6 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(15, 108, 182, 0.2) !important;
+}
