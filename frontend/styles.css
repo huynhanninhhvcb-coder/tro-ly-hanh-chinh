@@ -1,41 +1,5 @@
 /* =========================================
-   1. SỬA LỖI MẤT MENU BÊN TRÁI
-   ========================================= */
-[data-testid="stHeader"] {
-    background-color: transparent !important;
-}
-[data-testid="stToolbar"], .stAppDeployButton, #MainMenu {
-    display: none !important; 
-}
-footer {display: none !important;}
-
-/* =========================================
-   2. FONT CHỮ VÀ HEADER
-   ========================================= */
-html, body, [class*="css"]  {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
-.custom-header {
-    display: flex;
-    align-items: center;
-    padding: 10px 0px 20px 0px;
-    border-bottom: 3px solid #da251d;
-    margin-bottom: 2rem;
-}
-
-/* =========================================
-   3. KHUNG CHAT TRUNG TÂM
-   ========================================= */
-.block-container {
-    padding-bottom: 120px !important;
-    padding-top: 1.5rem !important;
-    max-width: 800px !important; 
-    padding-left: 15px !important; 
-    padding-right: 15px !important; 
-}
-
-/* =========================================
-   4. FIX LỖI THANH CÔNG CỤ DƯỚI ĐÁY (MOBILE 100%)
+   4. THANH CÔNG CỤ ĐÁY - TỐI GIẢN (CHỈ CÓ NÚT NÓI)
    ========================================= */
 div[data-testid="stHorizontalBlock"] {
     position: fixed !important;
@@ -44,82 +8,56 @@ div[data-testid="stHorizontalBlock"] {
     transform: translateX(-50%) !important;
     width: 100% !important; 
     max-width: 800px !important;         
-    padding: 10px 10px 20px 10px !important; 
+    padding: 15px 15px 25px 15px !important; 
     background-color: #ffffff !important;
     border-top: 1px solid #e0e0e0 !important;
     box-shadow: 0px -4px 15px rgba(0,0,0,0.08) !important;
     z-index: 99999 !important;
     box-sizing: border-box !important;
 
-    /* Để 3 phần tử nằm ngang và cách nhau 8px cho thanh thoát */
+    /* Ép nút nằm giữa màn hình hoàn hảo */
     display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
+    justify-content: center !important;
     align-items: center !important;
-    gap: 8px !important; 
 }
 
-/* Xóa mọi lớp đệm thừa */
+/* Căn giữa cột chứa nút thu âm */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
-    width: auto !important;
+    width: 100% !important;
     min-width: 0 !important; 
     padding: 0 !important;
     margin: 0 !important;
-}
-
-/* --- CỘT 1: NÚT "NÓI" --- */
-/* Ép cột ôm khít sát sạt vào nút bấm, triệt tiêu vùng trống */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    flex: 0 0 75px !important; 
-}
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) button {
-    width: 100% !important;
-    height: 42px !important;
-    margin: 0 !important;
-}
-
-/* --- CỘT 2: Ô NHẬP CHỮ --- */
-/* Tự động co giãn chiếm phần diện tích ở giữa */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) {
-    flex: 1 1 auto !important; 
-}
-
-/* --- CỘT 3: NÚT "GỬI" --- */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) {
-    flex: 0 0 75px !important;
-}
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button {
-    width: 100% !important;
-    height: 42px !important;
-    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
 }
 
 /* =========================================
-   5. TÙY CHỈNH MÀU SẮC (PHẦN BỊ THIẾU)
+   5. TÙY CHỈNH NÚT "CHẠM ĐỂ NÓI" TO BẢN
    ========================================= */
-/* Tô màu vàng cho nút "Gửi", đổi sang đỏ khi rê chuột */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button {
+div[data-testid="stHorizontalBlock"] button {
     background-color: #fcc101 !important;
     color: #333 !important;
     border: none !important;
     font-weight: bold !important;
-    border-radius: 5px !important;
+    font-size: 16px !important;
+    
+    /* Làm thành nút hình viên thuốc lớn */
+    border-radius: 30px !important; 
+    height: 55px !important;
+    width: 100% !important; 
+    max-width: 350px !important; /* Độ rộng vừa vặn, không bị bè ra hết màn hình */
+    margin: 0 !important;
+    box-shadow: 0px 4px 12px rgba(252, 193, 1, 0.4) !important;
     transition: all 0.3s ease;
 }
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) button:hover {
+
+/* Hiệu ứng ấn nút / rê chuột */
+div[data-testid="stHorizontalBlock"] button:hover,
+div[data-testid="stHorizontalBlock"] button:active {
     background-color: #da251d !important;
     color: white !important;
-}
-
-/* Làm đẹp ô nhập chữ */
-.stTextInput input {
-    height: 42px !important;
-    border-radius: 5px !important;
-    border: 1px solid #e1e8ed !important;
-}
-.stTextInput input:focus {
-    border-color: #da251d !important;
-    box-shadow: 0 0 0 1px #da251d !important;
+    box-shadow: 0px 4px 12px rgba(218, 37, 29, 0.4) !important;
+    transform: scale(0.98);
 }
 
 /* Làm đẹp thanh Sidebar (Menu bên trái) */
@@ -139,4 +77,8 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) bu
     background-color: #ffffff !important;
     color: #0f6cb6 !important;
     font-weight: bold !important;
+}
+/* Ẩn dứt điểm cục rác đỏ hình vương miện */
+.viewerBadge_container, .viewerBadge_link {
+    display: none !important;
 }
