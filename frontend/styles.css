@@ -55,7 +55,7 @@ div[data-testid="stHorizontalBlock"] button {
 div[data-testid="stHorizontalBlock"] button:hover,
 div[data-testid="stHorizontalBlock"] button:active {
     background-color: #da251d !important;
-    color: white !important;
+    color: yellow !important;
     box-shadow: 0px 4px 12px rgba(218, 37, 29, 0.4) !important;
     transform: scale(0.98);
 }
