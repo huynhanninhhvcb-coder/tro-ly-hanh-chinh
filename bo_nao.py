@@ -67,7 +67,8 @@ def xu_ly_cau_hoi(user_input: str) -> str:
         return response.text
     except Exception as e:
         print(f"Lỗi gọi Gemini API: {e}")
-        return "Xin lỗi, hệ thống đang bận xử lý hoặc rớt mạng. Vui lòng thử lại sau vài giây!"
+        # Ép hệ thống in ra mã lỗi kỹ thuật
+        return f"Lỗi chi tiết từ Google: {str(e)}"
 
 def text_to_speech_base64(text: str) -> str:
     """Sử dụng Google TTS để đọc văn bản, mã hóa thành Base64 để phát trên Web"""
