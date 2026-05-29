@@ -51,15 +51,15 @@ div[data-testid="stHorizontalBlock"] {
     z-index: 99999 !important;
     box-sizing: border-box !important;
 
-    /* Ép hiển thị hàng ngang tuyệt đối và KHÔNG CÓ KHOẢNG HỞ (gap: 0) */
+    /* Để 3 phần tử nằm ngang và cách nhau 8px cho thanh thoát */
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 0px !important; 
+    gap: 8px !important; 
 }
 
-/* Xóa mọi lớp đệm thừa của Streamlit */
+/* Xóa mọi lớp đệm thừa */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
     width: auto !important;
     min-width: 0 !important; 
@@ -68,26 +68,15 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
 }
 
 /* --- CỘT 1: NÚT "NÓI" --- */
+/* Lệnh auto này ép cái cột ôm khít sát sạt vào nút bấm, triệt tiêu vùng trống */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    flex: 0 0 75px !important; 
-}
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) button {
-    width: 100% !important; /* Ép nút phình to lấp đầy khoảng trắng */
-    height: 42px !important;
-    margin: 0 !important;
-    /* Làm vuông 2 góc bên phải để cắm sát vào ô chữ */
-    border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
-    border-right: none !important; 
+    flex: 0 0 auto !important; 
 }
 
 /* --- CỘT 2: Ô NHẬP CHỮ --- */
+/* Tự động co giãn chiếm phần diện tích ở giữa */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) {
     flex: 1 1 auto !important; 
-}
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) div[data-baseweb="input"] {
-    /* Làm vuông góc 2 bên để dính sát vào 2 nút */
-    border-radius: 0px !important;
 }
 
 /* --- CỘT 3: NÚT "GỬI" --- */
@@ -98,7 +87,4 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) bu
     width: 100% !important;
     height: 42px !important;
     margin: 0 !important;
-    /* Làm vuông 2 góc bên trái để cắm sát vào ô chữ */
-    border-top-left-radius: 0px !important;
-    border-bottom-left-radius: 0px !important;
 }
