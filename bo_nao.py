@@ -11,8 +11,8 @@ import google.generativeai as genai
 import streamlit as st
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# Sử dụng mô hình Gemini Pro (Phiên bản ổn định nhất, tương thích 100%)
-model = genai.GenerativeModel('gemini-pro')
+# Sử dụng mô hình Gemini 1.5 Flash (Tốc độ siêu nhanh, thông minh)
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 def load_all_documents() -> str:
     """Tự động đọc TẤT CẢ các file .txt trong thư mục để làm kiến thức cho AI"""
