@@ -47,100 +47,77 @@ html, body, [class*="css"]  {
 
 /* Tạo khoảng đệm đẩy nội dung chat lên */
 /* 1. Ép kích thước khung chính bằng Pixel tĩnh */
+/* =========================================
+   2. CĂN CHỈNH KHUNG CHÍNH
+   ========================================= */
 .block-container {
     padding-bottom: 120px !important;
     max-width: 800px !important; 
-    /* Dùng 20px lề cố định thay vì rem để kiểm soát tuyệt đối */
-    padding-left: 20px !important; 
-    padding-right: 20px !important; 
+    padding-left: 15px !important; 
+    padding-right: 15px !important; 
 }
 
-/* 2. Căn chỉnh thanh công cụ đáy thẳng tắp với Header */
+/* =========================================
+   3. THANH CÔNG CỤ ĐÁY - TỐI ƯU MOBILE 100%
+   ========================================= */
 div[data-testid="stHorizontalBlock"] {
     position: fixed !important;
     bottom: 0 !important;
-    left: 58% !important;
+    left: 50% !important;
     transform: translateX(-50%) !important;
     
-    /* Chiều rộng bằng màn hình trừ đi 40px (2 lề trái/phải ở trên cộng lại) */
-    width: calc(100% - 40px) !important; 
-    /* Max width = 800px - 40px = 760px (Khớp tuyệt đối với Header) */
+    /* Mở rộng hai bên lề trên màn hình nhỏ */
+    width: calc(100% - 15px) !important; 
     max-width: 760px !important;         
     
-    padding: 15px 20px 25px 20px !important;
+    padding: 12px 10px 25px 10px !important; 
     background-color: #ffffff !important;
     border: 1px solid #e1e8ed !important;
     border-bottom: none !important;
     border-radius: 16px 16px 0 0 !important; 
-    box-shadow: 0px -4px 15px rgba(0,0,0,0.03) !important;
-    z-index: 9999 !important;
+    box-shadow: 0px -4px 15px rgba(0,0,0,0.08) !important;
+    z-index: 99999 !important;
     box-sizing: border-box !important;
+
+    /* CHÌA KHÓA: Ép các nút nằm cùng 1 hàng ngang tuyệt đối, không rớt dòng */
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 6px !important; /* Khoảng cách siêu nhỏ gọn */
 }
 
-/* Tùy chỉnh màu sắc và kích thước nút bấm */
-.stButton > button {
-    background-color: #fcc101 !important;
-    color: #333 !important;
-    border: none !important;
-    font-weight: bold !important;
-    border-radius: 5px !important;
-    height: 42px !important;
-    margin-top: 1px !important;
-    transition: all 0.3s ease;
+/* Xóa khoảng trống mặc định của Streamlit giữa các cột */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+    min-width: 0 !important; 
+    padding: 0 !important;
 }
 
-.stButton > button:hover {
-    background-color: #da251d !important;
-    color: white !important;
+/* Ép kích thước Cột 1: Nút "Nói" */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
+    width: 80px !important; 
+    flex: 0 0 80px !important;
 }
 
-.stTextInput input {
-    height: 42px !important;
-    border-color: #da251d !important;
+/* Ép kích thước Cột 2: Ô nhập chữ (Tự động co giãn chiếm hết chỗ trống giữa) */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) {
+    width: auto !important;
+    flex: 1 1 auto !important;
+}
+
+/* Ép kích thước Cột 3: Nút "Gửi" */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3) {
+    width: 70px !important; 
+    flex: 0 0 70px !important;
 }
 
 /* =========================================
-   TÙY CHỈNH THANH SIDEBAR & HEADER BẢO LƯU
+   4. DỌN DẸP CÁC NÚT RÁC CỦA STREAMLIT
    ========================================= */
-
-/* Làm trong suốt Header để không che mất giao diện, nhưng vẫn giữ lại nút mở Sidebar trên Mobile */
-[data-testid="stHeader"] {
-    background-color: transparent !important;
-}
-
-/* Ẩn nút "Deploy" mặc định của Streamlit trên góc phải */
-.stAppDeployButton {
+/* Ẩn nút Deploy, Menu và Nút quản lý đỏ góc phải */
+.stAppDeployButton, 
+[data-testid="stToolbar"], 
+iframe[title="streamlit_app_manage_button"],
+#st-app-view-container > div > div > div:last-child {
     display: none !important;
-}
-
-/* Trang trí nền cho Sidebar */
-[data-testid="stSidebar"] {
-    background-color: #ffffff !important;
-    border-right: 1px solid #e1e8ed !important;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.05) !important;
-}
-
-/* Trang trí Tiêu đề trong Sidebar */
-[data-testid="stSidebar"] h3 {
-    color: #0f6cb6 !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    font-size: 16px !important;
-    margin-bottom: -10px !important;
-}
-
-/* Nút Link Button trong Sidebar */
-[data-testid="stSidebar"] .stLinkButton > a {
-    border: 1px solid #0f6cb6 !important;
-    background-color: #ffffff !important;
-    color: #0f6cb6 !important;
-    font-weight: bold !important;
-    transition: all 0.3s ease;
-}
-
-/* Hiệu ứng khi rê chuột vào Nút Link Button */
-[data-testid="stSidebar"] .stLinkButton > a:hover {
-    background-color: #0f6cb6 !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 10px rgba(15, 108, 182, 0.2) !important;
 }
