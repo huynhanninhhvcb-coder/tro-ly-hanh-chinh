@@ -44,7 +44,7 @@ with st.sidebar:
     
     st.markdown("<br>", unsafe_allow_html=True) 
     
-    st.markdown("### 📚 TÀI LIỆU ĐỊA PHƯƠNG")
+    st.markdown("### 📚 TRA CỨU TÀI LIỆU")
     st.link_button("📖 Tra cứu tài liệu Văn hóa - Xã hội", "https://notebooklm.google.com/notebook/a41316ce-b623-4e76-b7ae-b3235f157f49", use_container_width=True)
     st.markdown("---")
 
