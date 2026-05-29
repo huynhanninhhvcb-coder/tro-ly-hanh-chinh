@@ -70,7 +70,12 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
 /* --- CỘT 1: NÚT "NÓI" --- */
 /* Ép cột ôm khít sát sạt vào nút bấm, triệt tiêu vùng trống */
 div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
-    flex: 0 0 auto !important; 
+    flex: 0 0 75px !important; 
+}
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) button {
+    width: 100% !important;
+    height: 42px !important;
+    margin: 0 !important;
 }
 
 /* --- CỘT 2: Ô NHẬP CHỮ --- */
