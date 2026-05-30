@@ -1,151 +1,153 @@
-import streamlit as st
-import time
 import os
+
+import io
+
 import base64
 
-# Nhúng thư viện thu âm trình duyệt
-from streamlit_mic_recorder import speech_to_text
-
-# Gọi đúng 2 hàm từ bo_nao.py
-from bo_nao import xu_ly_cau_hoi, text_to_speech_base64
+from gtts import gTTS
 
 
-# --- HÀM HỖ TRỢ TẢI FRONTEND VÀ ẢNH ---
-def load_frontend(filename):
-    duong_dan = os.path.join(os.path.dirname(__file__), "frontend", filename)
+
+# ==========================================
+
+# 1. HÀM ĐỌC NỘI DUNG TỪ FILE TXT
+
+# ==========================================
+
+def doc_file_txt(ten_file: str) -> str:
+
+    """Mở và đọc nội dung file .txt trong cùng thư mục"""
+
+    thu_muc_hien_tai = os.path.dirname(__file__)
+
+    duong_dan = os.path.join(thu_muc_hien_tai, ten_file)
+
+    
+
     try:
-        with open(duong_dan, "r", encoding="utf-8") as f:
-            return f.read()
+
+        with open(duong_dan, "r", encoding="utf-8", errors="ignore") as f:
+
+            # Đọc file và loại bỏ các khoảng trắng thừa
+
+            return f.read().strip()
+
     except FileNotFoundError:
-        return ""
 
-def get_image_base64(file_path):
-    try:
-        with open(file_path, "rb") as img_file:
-            return base64.b64encode(img_file.read()).decode("utf-8")
-    except FileNotFoundError:
-        return ""
+        return f"Xin lỗi, hệ thống không tìm thấy tài liệu {ten_file} trong cơ sở dữ liệu."
 
+    except Exception as e:
 
-# --- CẤU HÌNH TRANG VÀ NHÚNG FRONTEND ---
-st.set_page_config(page_title="Tra cứu Hành chính công", page_icon="🏛️", layout="centered")
+        print(f"Lỗi đọc file {ten_file}: {e}")
 
-logo_path = r"E:\Tro_ly_AI\Picture\TTHCC.png"
-logo_b64 = get_image_base64(logo_path)
-
-header_html = load_frontend('header.html')
-if logo_b64:
-    header_html = header_html.replace('{{LOGO_SRC}}', f"data:image/png;base64,{logo_b64}")
-
-st.markdown(f"<style>{load_frontend('styles.css')}</style>", unsafe_allow_html=True)
-st.markdown(header_html, unsafe_allow_html=True)
-st.markdown(f"<script>{load_frontend('script.js')}</script>", unsafe_allow_html=True)
+        return "Xin lỗi, có lỗi xảy ra khi đọc tài liệu. Vui lòng thử lại sau."
 
 
-# --- THANH BÊN (SIDEBAR) ---
-with st.sidebar:
-    st.markdown("### 🔍 TIỆN ÍCH TRA CỨU")
-    st.markdown("Các liên kết ngoài hỗ trợ công dân tra cứu thông tin nhanh chóng.")
-    st.link_button("🏥 Tra cứu thẻ Bảo hiểm Y tế", "https://baohiemxahoi.gov.vn/tracuu/Pages/tra-cuu-thoi-han-su-dung-the-bhyt.aspx", use_container_width=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True) 
-    
-    st.markdown("### 📚 TÀI LIỆU ĐỊA PHƯƠNG")
-    st.markdown("Kho lưu trữ văn bản và tài liệu văn hóa - xã hội do AI hỗ trợ.")
-    st.link_button("📖 Tra cứu tài liệu Văn hóa - Xã hội", "https://notebooklm.google.com/notebook/a41316ce-b623-4e76-b7ae-b3235f157f49", use_container_width=True)
-    st.markdown("---")
-    st.info("💡 Hướng dẫn: Nhấn vào các nút bên trên để mở trang tra cứu hoặc kho tài liệu trong một thẻ (tab) mới.")
+
+# ==========================================
+
+# 2. XỬ LÝ CÂU HỎI (TÌM TỪ KHÓA -> GỌI FILE TXT)
+
+# ==========================================
+
+def xu_ly_cau_hoi(user_input: str) -> str:
+
+    """Kiểm tra từ khóa và móc nối với đúng file thủ tục"""
+
+    if not user_input.strip():
+
+        return "Xin lỗi, tôi chưa nghe rõ. Bạn có thể nói lại được không?"
 
 
-# --- QUẢN LÝ BỘ NHỚ TRÒ CHUYỆN ---
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {"role": "assistant", "content": "Kính chào công dân! Đây là Hệ thống Trợ lý ảo tra cứu thủ tục hành chính của Trung tâm phục vụ hành chính công phường Minh Phụng. Tôi có thể giúp gì cho bạn?"}
-    ]
 
-if "chat_input_widget" not in st.session_state:
-    st.session_state.chat_input_widget = ""
-if "trigger_send" not in st.session_state:
-    st.session_state.trigger_send = False
-if "current_prompt" not in st.session_state:
-    st.session_state.current_prompt = ""
+    # Chuyển câu nói thành chữ thường để dễ so sánh
 
-def handle_submit():
-    if st.session_state.chat_input_widget.strip():
-        st.session_state.current_prompt = st.session_state.chat_input_widget
-        st.session_state.trigger_send = True
-        st.session_state.chat_input_widget = ""
+    cau_hoi = user_input.lower()
 
 
-# --- HIỂN THỊ LỊCH SỬ CHAT ---
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
 
-audio_player_container = st.empty()
+    # --- KỊCH BẢN TƯ VẤN BẰNG FILE TXT ---
 
+    if "mai táng" in cau_hoi or "thủ tục hỗ trợ mai táng" in cau_hoi:
 
-# --- THANH CÔNG CỤ ĐÁY ---
-col_mic, col_text, col_btn = st.columns([1.5, 4.5, 1.2])
+        return doc_file_txt("Ho_so_mai_tang.txt")
 
-with col_mic:
-    spoken_text = speech_to_text(
-        language='vi-VN',
-        start_prompt="🎤 Nói",
-        stop_prompt="⏹️ Dừng",
-        just_once=True,
-        key='STT'
-    )
-
-with col_text:
-    st.text_input(
-        "Nhập câu hỏi...", 
-        key="chat_input_widget", 
-        on_change=handle_submit, 
-        label_visibility="collapsed", 
-        placeholder="Ví dụ: Thủ tục hưu trí..."
-    )
-
-with col_btn:
-    st.button("➤ Gửi", on_click=handle_submit, use_container_width=True)
-
-
-# --- XỬ LÝ LÔ-GÍC KHI CÓ CÂU HỎI ---
-if spoken_text:
-    st.session_state.current_prompt = spoken_text
-    st.session_state.trigger_send = True
-
-if st.session_state.trigger_send and st.session_state.current_prompt:
-    prompt = st.session_state.current_prompt
-    
-    st.session_state.trigger_send = False
-    st.session_state.current_prompt = ""
-
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
-
-    response = xu_ly_cau_hoi(prompt)
-    
-    audio_b64 = text_to_speech_base64(response)
-    
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        full_response = ""
-        for chunk in response.split("\n"):
-            for word in chunk.split():
-                full_response += word + " "
-                time.sleep(0.02)
-                message_placeholder.markdown(full_response + "▌")
-            full_response += "\n\n"
-        message_placeholder.markdown(full_response)
         
-        if audio_b64:
-            audio_html = f'''
-                <audio autoplay="true" class="hidden">
-                    <source src="data:audio/mp3;base64,{audio_b64}" type="audio/mp3">
-                </audio>
-            '''
-            audio_player_container.markdown(audio_html, unsafe_allow_html=True)
-    
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+    elif "hỏa táng" in cau_hoi or "thủ tục hỗ trợ hỏa táng" in cau_hoi:
+
+        return doc_file_txt("Ho_so_hoa_tang.txt")
+
+        
+
+    elif "khuyết tật" in cau_hoi or "thủ tục xác nhận mức độ khuyết tật" in cau_hoi:
+
+        return doc_file_txt("Xac_dinh_muc_do_khuyet_tat.txt")
+
+        
+
+    elif "trợ cấp hưu trí" in cau_hoi or "trợ cấp hưu trí xã hội" in cau_hoi:
+
+        return doc_file_txt("Thoi_huong_tro_cap.txt")
+
+        
+
+    elif "chào" in cau_hoi:
+
+        return "Kính chào công dân. Tôi là trợ lý ảo của Trung tâm Hành chính công phường Minh Phụng. Tôi có thể giúp gì cho bạn?"
+
+        
+
+    # --- TRƯỜNG HỢP KHÔNG TÌM THẤY TỪ KHÓA ---
+
+    else:
+
+        return (
+
+            "Xin lỗi, hiện tại hệ thống chưa được lập trình để trả lời về thủ tục này. "
+
+            "Mong bạn liên hệ trực tiếp cán bộ tại quầy để được hướng dẫn cụ thể hơn."
+
+        )
+
+
+
+# ==========================================
+
+# 3. TẠO GIỌNG NÓI (Dùng gTTS miễn phí)
+
+# ==========================================
+
+def text_to_speech_base64(text: str) -> str:
+
+    """Sử dụng Google TTS để đọc văn bản, mã hóa thành Base64 để phát trên Web"""
+
+    if not text:
+
+        return ""
+
+    try:
+
+        # Lọc bớt văn bản quá dài (trên 800 ký tự) để tránh lỗi xử lý giọng nói
+
+        text_to_read = text[:800] + "..." if len(text) > 800 else text
+
+        
+
+        tts = gTTS(text=text_to_read, lang='vi')
+
+        fp = io.BytesIO()
+
+        tts.write_to_fp(fp)
+
+        fp.seek(0)
+
+        b64 = base64.b64encode(fp.read()).decode()
+
+        return b64
+
+    except Exception as e:
+
+        print(f"Lỗi TTS: {e}")
+
+        return ""
