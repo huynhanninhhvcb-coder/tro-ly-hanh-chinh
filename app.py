@@ -1,116 +1,90 @@
 import streamlit as st
-import time
-import os
-import base64
-
-# Nhúng thư viện thu âm trình duyệt
 from streamlit_mic_recorder import speech_to_text
 from bo_nao import xu_ly_cau_hoi, text_to_speech_base64
 
-# --- HÀM HỖ TRỢ TẢI FRONTEND VÀ ẢNH ---
-def load_frontend(filename):
-    duong_dan = os.path.join(os.path.dirname(__file__), "frontend", filename)
-    try:
-        with open(duong_dan, "r", encoding="utf-8") as f:
-            return f.read()
-    except FileNotFoundError:
-        return ""
+# ==========================================
+# 1. CẤU HÌNH GIAO DIỆN TRANG WEB
+# ==========================================
+st.set_page_config(page_title="Trợ lý Hành chính công", page_icon="🇻🇳", layout="centered")
 
-def get_image_base64(file_path):
-    try:
-        with open(file_path, "rb") as img_file:
-            return base64.b64encode(img_file.read()).decode("utf-8")
-    except FileNotFoundError:
-        return ""
+# Nhúng file CSS để tùy chỉnh giao diện (khung chữ, nút bấm vàng...)
+try:
+    with open("frontend/styles.css", "r", encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except:
+    pass
 
-# --- CẤU HÌNH TRANG VÀ NHÚNG FRONTEND ---
-st.set_page_config(page_title="Tra cứu Hành chính công", page_icon="🏛️", layout="centered")
+# Hiển thị Logo của Trung tâm (đảm bảo file TTHCC.png có sẵn)
+try:
+    st.image("TTHCC.png", width=300)
+except:
+    pass
 
-logo_path = "TTHCC.png"
-logo_b64 = get_image_base64(logo_path)
-
-header_html = load_frontend('header.html')
-if logo_b64:
-    header_html = header_html.replace('{{LOGO_SRC}}', f"data:image/png;base64,{logo_b64}")
-
-st.markdown(f"<style>{load_frontend('styles.css')}</style>", unsafe_allow_html=True)
-st.markdown(header_html, unsafe_allow_html=True)
-st.markdown(f"<script>{load_frontend('script.js')}</script>", unsafe_allow_html=True)
-
-# --- THANH BÊN (SIDEBAR) ---
-with st.sidebar:
-    st.markdown("### 🔍 TIỆN ÍCH TRA CỨU")
-    st.link_button("🏥 Tra cứu thẻ Bảo hiểm Y tế", "https://baohiemxahoi.gov.vn/tracuu/Pages/tra-cuu-thoi-han-su-dung-the-bhyt.aspx", use_container_width=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True) 
-    
-    st.markdown("### 📚 TRA CỨU TÀI LIỆU")
-    st.link_button("📖 Tra cứu tài liệu Văn hóa - Xã hội", "https://notebooklm.google.com/notebook/a41316ce-b623-4e76-b7ae-b3235f157f49", use_container_width=True)
-    st.markdown("---")
-
-# --- QUẢN LÝ BỘ NHỚ TRÒ CHUYỆN ---
+# ==========================================
+# 2. KHỞI TẠO BỘ NHỚ LỊCH SỬ CHAT
+# ==========================================
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "assistant", "content": "Kính chào công dân! Đây là Hệ thống Trợ lý ảo tra cứu thủ tục hành chính của Trung tâm phục vụ hành chính công phường Minh Phụng. Tôi có thể giúp gì cho bạn?"}
     ]
 
-# --- HIỂN THỊ LỊCH SỬ CHAT ---
+# ==========================================
+# 3. HIỂN THỊ LỊCH SỬ TRÒ CHUYỆN 
+# ==========================================
 for message in st.session_state.messages:
-    # Dùng ảnh robot.png cho Trợ lý, người dân để mặc định
+    # Gắn ảnh robot.png cho Trợ lý, của người dân thì để mặc định
     hinh_dai_dien = "robot.png" if message["role"] == "assistant" else None
     
     with st.chat_message(message["role"], avatar=hinh_dai_dien):
         st.markdown(message["content"])
 
+# ==========================================
+# 4. THANH NHẬP LIỆU (THU ÂM & GÕ PHÍM)
+# ==========================================
+# Giao diện nút bấm "Chạm để Nói" thu giọng nói và dịch thành chữ
+giong_noi = speech_to_text(
+    language='vi-VN',
+    start_prompt="Chạm để Nói",
+    stop_prompt="Đang thu âm (Chạm để Dừng)...",
+    just_once=True,
+    key='STT'
+)
 
-# ==================================================
-# --- THANH CÔNG CỤ ĐÁY (CHỈ CÒN ĐÚNG 1 NÚT NÓI) ---
-# ==================================================
-# Dùng 3 cột: Cột trái (1 phần), Cột giữa (2 phần chứa nút), Cột phải (1 phần)
-col_left, col_mic, col_right = st.columns([1, 2, 1])
+# Thanh gõ phím dự phòng
+van_ban = st.chat_input("Hoặc nhập câu hỏi vào đây...")
 
-with col_mic:
-    spoken_text = speech_to_text(
-        language='vi-VN',
-        start_prompt="Chạm để Nói",
-        stop_prompt="⏹️ Đang thu âm... (Dừng)",
-        just_once=True,
-        use_container_width=True, # Lệnh ép nút co giãn
-        key='STT'
-    )
+# Gom chung dữ liệu: Ưu tiên nhận giọng nói, nếu không có thì nhận văn bản gõ phím
+cau_hoi = giong_noi if giong_noi else van_ban
 
-# --- XỬ LÝ LÔ-GÍC KHI NGƯỜI DÂN VỪA NÓI XONG ---
-if spoken_text:
-    # In câu người dân vừa nói
-    st.session_state.messages.append({"role": "user", "content": spoken_text})
+# ==========================================
+# 5. XỬ LÝ LÔ-GÍC KHI CÔNG DÂN ĐẶT CÂU HỎI
+# ==========================================
+if cau_hoi:
+    # A. Hiển thị câu hỏi của người dân lên màn hình
     with st.chat_message("user"):
-        st.markdown(spoken_text)
+        st.markdown(cau_hoi)
+    # Lưu câu hỏi vào lịch sử
+    st.session_state.messages.append({"role": "user", "content": cau_hoi})
 
-    # Não bộ xử lý
-    response = xu_ly_cau_hoi(spoken_text)
+    # B. Dò từ khóa tìm câu trả lời từ file txt (gọi từ bo_nao.py)
+    cau_tra_loi = xu_ly_cau_hoi(cau_hoi)
     
-    # Tạo luồng giọng nói
-    audio_b64 = text_to_speech_base64(response)
-    
-    # In câu trả lời của Trợ lý
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        full_response = ""
-        for chunk in response.split("\n"):
-            for word in chunk.split():
-                full_response += word + " "
-                time.sleep(0.02)
-                message_placeholder.markdown(full_response + "▌")
-            full_response += "\n\n"
-        message_placeholder.markdown(full_response)
+    # C. Tạo file âm thanh (chuyển chữ thành giọng nói Google)
+    audio_b64 = text_to_speech_base64(cau_tra_loi)
+
+    # D. Hiển thị câu trả lời và phát âm thanh
+    with st.chat_message("assistant", avatar="robot.png"):
+        st.markdown(cau_tra_loi)
         
-        # Phát âm thanh
+        # --- ĐOẠN CODE ĐÃ ĐƯỢC SỬA LỖI MÀN HÌNH HỒNG ---
         if audio_b64:
             audio_html = f'''
-                <audio autoplay="true" class="hidden">
+                <audio autoplay="true" controls style="width: 100%; outline: none; border-radius: 8px; margin-top: 15px; box-shadow: 0px 2px 5px rgba(0,0,0,0.1);">
                     <source src="data:audio/mp3;base64,{audio_b64}" type="audio/mp3">
                 </audio>
             '''
-            audio_player_container.markdown(audio_html, unsafe_allow_html=True)
-    
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+            # Lệnh st.markdown in trực tiếp thanh phát âm thanh ra màn hình
+            st.markdown(audio_html, unsafe_allow_html=True)
+            
+    # Lưu câu trả lời vào lịch sử
+    st.session_state.messages.append({"role": "assistant", "content": cau_tra_loi})
