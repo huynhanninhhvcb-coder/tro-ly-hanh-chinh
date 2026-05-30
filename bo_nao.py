@@ -33,16 +33,16 @@ def xu_ly_cau_hoi(user_input: str) -> str:
     cau_hoi = user_input.lower()
 
     # --- KỊCH BẢN TƯ VẤN BẰNG FILE TXT ---
-    if "mai táng" in cau_hoi:
+    if "mai táng" in cau_hoi or "thủ tục hỗ trợ mai táng" in cau_hoi:
         return doc_file_txt("Ho_so_mai_tang.txt")
         
-    elif "hỏa táng" in cau_hoi:
+    elif "hỏa táng" in cau_hoi or "thủ tục hỗ trợ hỏa táng" in cau_hoi:
         return doc_file_txt("Ho_so_hoa_tang.txt")
         
-    elif "khuyết tật" in cau_hoi:
+    elif "khuyết tật" in cau_hoi or "thủ tục xác nhận mức độ khuyết tật" in cau_hoi or "xác nhận mức độ khuyết tật" in cau_hoi:
         return doc_file_txt("Xac_dinh_muc_do_khuyet_tat.txt")
         
-    elif "trợ cấp" in cau_hoi or "hưu trí" in cau_hoi:
+    elif "trợ cấp hưu trí" in cau_hoi or "trợ cấp hưu trí xã hội" 
         return doc_file_txt("Thoi_huong_tro_cap.txt")
         
     elif "chào" in cau_hoi:
