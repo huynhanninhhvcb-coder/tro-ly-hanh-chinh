@@ -39,10 +39,10 @@ def xu_ly_cau_hoi(user_input: str) -> str:
     elif "hỏa táng" in cau_hoi or "thủ tục hỗ trợ hỏa táng" in cau_hoi:
         return doc_file_txt("Ho_so_hoa_tang.txt")
         
-    elif "khuyết tật" in cau_hoi or "thủ tục xác nhận mức độ khuyết tật" in cau_hoi or "xác nhận mức độ khuyết tật" in cau_hoi:
+    elif "khuyết tật" in cau_hoi or "thủ tục xác nhận mức độ khuyết tật" in cau_hoi:
         return doc_file_txt("Xac_dinh_muc_do_khuyet_tat.txt")
         
-    elif "trợ cấp hưu trí" in cau_hoi or "trợ cấp hưu trí xã hội" 
+    elif "trợ cấp hưu trí" in cau_hoi or "trợ cấp hưu trí xã hội" in cau_hoi:
         return doc_file_txt("Thoi_huong_tro_cap.txt")
         
     elif "chào" in cau_hoi:
