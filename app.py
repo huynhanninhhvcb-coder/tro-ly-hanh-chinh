@@ -56,10 +56,11 @@ if "messages" not in st.session_state:
 
 # --- HIỂN THỊ LỊCH SỬ CHAT ---
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    # Dùng ảnh robot.png cho Trợ lý, người dân để mặc định
+    hinh_dai_dien = "robot.png" if message["role"] == "assistant" else None
+    
+    with st.chat_message(message["role"], avatar=hinh_dai_dien):
         st.markdown(message["content"])
-
-audio_player_container = st.empty()
 
 
 # ==================================================
